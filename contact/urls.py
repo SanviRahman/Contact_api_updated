@@ -13,7 +13,7 @@ api_urlpatterns = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(api_urlpatterns)),
-    path('', include(api_urlpatterns)),
+    path('contact/', include(api_urlpatterns)),
 ]
 #For static file and media file
 if settings.DEBUG:

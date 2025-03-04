@@ -510,7 +510,7 @@
         "kind": 5,
         "importPath": "contact.urls",
         "description": "contact.urls",
-        "peekOfCode": "api_urlpatterns = [\n    path('', include('myApp.urls')),\n    path('', include('contApp.urls')),\n]\nurlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/', include(api_urlpatterns)),\n    path('', include(api_urlpatterns)),\n]\n#For static file and media file",
+        "peekOfCode": "api_urlpatterns = [\n    path('', include('myApp.urls')),\n    path('', include('contApp.urls')),\n]\nurlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/', include(api_urlpatterns)),\n    path('contact/', include(api_urlpatterns)),\n]\n#For static file and media file",
         "detail": "contact.urls",
         "documentation": {}
     },
@@ -519,7 +519,7 @@
         "kind": 5,
         "importPath": "contact.urls",
         "description": "contact.urls",
-        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/', include(api_urlpatterns)),\n    path('', include(api_urlpatterns)),\n]\n#For static file and media file\nif settings.DEBUG:\n    urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)\n    urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/', include(api_urlpatterns)),\n    path('contact/', include(api_urlpatterns)),\n]\n#For static file and media file\nif settings.DEBUG:\n    urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)\n    urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)",
         "detail": "contact.urls",
         "documentation": {}
     },
@@ -573,16 +573,25 @@
         "kind": 5,
         "importPath": "contApp.urls",
         "description": "contApp.urls",
-        "peekOfCode": "urlpatterns = [\n    path('contact/',ContactAPIView.as_view(),name='contact'),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('create/',ContactCreateAPIView.as_view(),name='create'),\n    path('update/<int:pk>/',ContactDeatilsView.as_view(),name='update'),\n    path('delete/<int:pk>/',ContactDeatilsView.as_view(),name='delete'),\n]",
         "detail": "contApp.urls",
         "documentation": {}
     },
     {
-        "label": "ContactAPIView",
+        "label": "ContactCreateAPIView",
         "kind": 6,
         "importPath": "contApp.views",
         "description": "contApp.views",
-        "peekOfCode": "class ContactAPIView(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self,request):\n        contact=Contact.objects.all()\n        serializer=ContactSerializer(contact,many=True)\n        return Response(serializer.data)\n    #write a code for post\n    def post(self, request):\n        serializer=ContactSerializer(data=request.data)\n        if serializer.is_valid():",
+        "peekOfCode": "class ContactCreateAPIView(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self,request):\n        contact=Contact.objects.all()\n        serializer=ContactSerializer(contact,many=True)\n        return Response(serializer.data)\n    #write a code for post\n    def post(self, request):\n        serializer=ContactSerializer(data=request.data)\n        if serializer.is_valid():",
+        "detail": "contApp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ContactDeatilsView",
+        "kind": 6,
+        "importPath": "contApp.views",
+        "description": "contApp.views",
+        "peekOfCode": "class ContactDeatilsView(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    #write a code for get\n    def get_object(self,pk):\n        try:\n            return Contact.objects.get(pk=pk)\n        except Contact.DoesNotExist:\n            return Response(status=status.HTTP_404_NOT_FOUND)\n    def get(self,request):\n        contact=Contact.objects.all()",
         "detail": "contApp.views",
         "documentation": {}
     },
